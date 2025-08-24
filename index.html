@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #007bff;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+        .valid {
+            border-color: green !important;
+        }
+
+        .invalid {
+            border-color: red !important;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form id="myForm">
+        <h2>Register</h2>
+
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Enter username">
+        <div class="error" id="usernameError"></div>
+
+        <label for="email">Email</label>
+        <input type="text" id="email" placeholder="Enter email">
+        <div class="error" id="emailError"></div>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter password">
+        <div class="error" id="passwordError"></div>
+
+        <button type="submit">Submit</button>
+
+        <p class="list"></p>
+    </form>
+
+    <script>
+        const form = document.getElementById("myForm");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault(); // prevent page reload
+            let isValid = true;
+
+            // Username validation
+            const username = document.getElementById("username");
+            const usernameError = document.getElementById("usernameError");
+            const usernamePattern = /^[A-Z][a-zA-Z]{2,}$/;
+            if (!username.value.match(usernamePattern)) {
+                username.classList.add("invalid");
+                username.classList.remove("valid");
+                usernameError.textContent = "First name must start with uppercase and have at least 3 letters";
+                isValid = false;
+            } else {
+                username.classList.add("valid");
+                username.classList.remove("invalid");
+                usernameError.textContent = "";
+            }
+
+            // Email validation
+            const email = document.getElementById("email");
+            const emailError = document.getElementById("emailError");
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (!email.value.match(emailPattern)) {
+                email.classList.add("invalid");
+                email.classList.remove("valid");
+                emailError.textContent = "Enter a valid email";
+                isValid = false;
+            } else {
+                email.classList.add("valid");
+                email.classList.remove("invalid");
+                emailError.textContent = "";
+            }
+
+        
+            const password = document.getElementById("password");
+            const passwordError = document.getElementById("passwordError");
+            if (password.value.length < 6) {
+                password.classList.add("invalid");
+                password.classList.remove("valid");
+                passwordError.textContent = "Password must be at least 6 characters";
+                isValid = false;
+            } else {
+                password.classList.add("valid");
+                password.classList.remove("invalid");
+                passwordError.textContent = "";
+            }
+
+      
+            if (isValid) {
+                alert("Form submitted successfully!");
+                form.reset();
+                document.querySelectorAll("input").forEach(input => {
+                    input.classList.remove("valid");
+                });
+            }
+        });
+    </script>
+</body>
+</html>
